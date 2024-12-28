@@ -130,10 +130,12 @@
     <ClCompile Include="Board.cpp" />
     <ClCompile Include="gamePiece.cpp" />
     <ClCompile Include="gamePiece.h" />
+    <ClCompile Include="pieces.cpp" />
     <ClCompile Include="test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Board.h" />
+    <ClInclude Include="pieces.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

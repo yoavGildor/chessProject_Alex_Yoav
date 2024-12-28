@@ -1,17 +1,16 @@
-#include "gamePiece.h"
+#include "pieces.h"
 #include <iostream>
-#define BOARD_SIZE 8
-#define BLACK 0
-#define WHITE 1
+#include <array>
 
 class Board
 {
 private:
-	GamePiece _board[BOARD_SIZE][BOARD_SIZE];
+	std::vector<std::vector<GamePiece*>> _board;
 	int _turn;
 public:
 	Board();
 	~Board();
+	int checkPieceMove(int posX, int posY, int tarX, int tarY);
 	int getTurn();
 	void switchTurn();
 	void load();
