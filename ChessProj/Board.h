@@ -5,8 +5,9 @@
 class Board
 {
 private:
-	std::vector<std::vector<GamePiece*>> _board;
-	int _turn;
+	GamePiece* _board[BOARD_SIZE][BOARD_SIZE];
+	color _turn;
+	int temp[];
 public:
 	Board();
 	~Board();
@@ -15,9 +16,8 @@ public:
 	void switchTurn();
 	void load();
 	void move();
-	int isValid();
-	bool checkMate();
+	int isValid(int startX, int startY, int endX, int endY);
+	bool checkMate(color colorOfKing);
 	int* convert(std::string);
-	int read(int startX, int startY, int endX, int endY);
 	friend std::ostream& operator<<(std::ostream& os, const Board& board);
 };

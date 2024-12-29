@@ -1,6 +1,6 @@
 #include "gamePiece.h"
 
-GamePiece::GamePiece(int color, char type, int posX, int posY)
+GamePiece::GamePiece(color color, char type, int posX, int posY)
 {
 	_posX = posX;
 	_posY = posY;
@@ -12,11 +12,11 @@ GamePiece::GamePiece()
 {
 	_posX = 0;
 	_posY = 0;
-	_color = 1;
+	_color = white;
 	_type = '#';
 }
 
-int GamePiece::checkMove(std::vector<std::vector<GamePiece*>> board, int tarX, int tarY)
+int GamePiece::checkMove(GamePiece* board[BOARD_SIZE][BOARD_SIZE], int tarX, int tarY)
 {
 	return 0;
 }
