@@ -1,0 +1,1 @@
+int cmpnum(int, int);

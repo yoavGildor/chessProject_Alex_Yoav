@@ -1,5 +1,7 @@
 #pragma once
 #include "gamePiece.h"
+#include <cmath>
+#include "HelperFuncs.h"
 
 class pawn : public GamePiece
 {

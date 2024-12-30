@@ -3,11 +3,11 @@
 Board::Board()
 {
 	_turn = white;
-	for (int i = 0; i < BOARD_SIZE; i++)
+	for (int i = 0; i < BOARD_SIZE; i++) //changed x and y
 	{
 		for (int j = 0; j < BOARD_SIZE; j++)
 		{
-			_board[i][j] = new GamePiece(null, '#', i, j);
+			_board[j][i] = new GamePiece(null, '#', i, j);
 		}
 	}
 }
@@ -17,12 +17,10 @@ Board::~Board()
 
 }
 
-int Board::checkPieceMove(int posX, int posY, int tarX, int tarY)
+int Board::checkPieceMove(int posX, int posY, int tarX, int tarY) //changed x and y
 {
-	return _board[posY][posX]->checkMove(this->_board, tarX, tarY);
+	return _board[posX][posY]->checkMove(this->_board, tarX, tarY);
 }
-
-
 
 int Board::getTurn()
 {
@@ -41,42 +39,42 @@ void Board::switchTurn()
 	}
 }
 
-void Board::load()
+void Board::load() //changed x and y
 {
 	int i = 0;
 	for (i = 0; i < BOARD_SIZE; i++)
 	{
 		if (i == 0 || i == 7)
-			_board[0][i] = new rook(black, 'R', i, 0);
+			_board[i][0] = new rook(black, 'R', i, 0);
 		if (i == 1 || i == 6)
-			_board[0][i] = new knight(black, 'N', i, 0);
+			_board[i][0] = new knight(black, 'N', i, 0);
 		if (i == 2 || i == 5)
-			_board[0][i] = new bishop(black, 'B', i, 0);
+			_board[i][0] = new bishop(black, 'B', i, 0);
 		if (i == 3)
-			_board[0][i] = new king(black, 'K', i, 0);
+			_board[i][0] = new king(black, 'K', i, 0);
 		if (i == 4)
-			_board[0][i] = new queen(black, 'Q', i, 0);
+			_board[i][0] = new queen(black, 'Q', i, 0);
 	}
 	for (i = 0; i < BOARD_SIZE; i++)
 	{
-		_board[1][i] = new pawn(black, 'p', i, 1);
+		_board[i][1] = new pawn(black, 'p', i, 1);
 	}
 	for (i = 0; i < BOARD_SIZE; i++)
 	{
-		_board[6][i] = new pawn(white, 'p', i, 6);
+		_board[i][6] = new pawn(white, 'p', i, 6);
 	}
 	for (i = 0; i < BOARD_SIZE; i++)
 	{
 		if (i == 0 || i == 7)
-			_board[7][i] = new rook(white, 'R', i, 7);
+			_board[i][7] = new rook(white, 'R', i, 7);
 		if (i == 1 || i == 6)
-			_board[7][i] = new knight(white, 'N', i, 7);
+			_board[i][7] = new knight(white, 'N', i, 7);
 		if (i == 2 || i == 5)
-			_board[7][i] = new bishop(white, 'B', i, 7);
+			_board[i][7] = new bishop(white, 'B', i, 7);
 		if (i == 3)
-			_board[7][i] = new king(white, 'K', i, 7);
+			_board[i][7] = new king(white, 'K', i, 7);
 		if (i == 4)
-			_board[7][i] = new queen(white, 'Q', i, 7);
+			_board[i][7] = new queen(white, 'Q', i, 7);
 	}
 }
 
@@ -85,7 +83,7 @@ void Board::move()
 	//INCOMPLETE
 }
 
-int Board::isValid(int startX, int startY, int endX, int endY)
+int Board::isValid(int startX, int startY, int endX, int endY) //changed x and y
 {
 	if (startX > 7 || startX < 0 || startY > 7 || startY < 0 || endX > 7 || endX < 0 || endY > 7 || endY < 0)
 	{
@@ -95,18 +93,18 @@ int Board::isValid(int startX, int startY, int endX, int endY)
 	{
 		return 7;
 	}
-	if (_board[startY][startX]->getColor() != _turn)
+	if (_board[startX][startY]->getColor() != _turn)
 	{
 		return 2;
 	}
-	if (_board[startY][startX]->getColor() == _turn)
+	if (_board[startX][startY]->getColor() == _turn)
 	{
 		return 3;
 	}
 	return 0;
 }
 
-bool Board::checkMate(color colorOfKing)
+bool Board::checkMate(color colorOfKing) //need to change x and y!!!!!!!
 {
 	int posY;
 	int posX;
@@ -213,11 +211,10 @@ int* Board::convert(std::string infoStr)
 	infoArr[3] = infoStr[3] - '0';
 
 	return infoArr;
-	
 }
 
 
-std::ostream& operator<<(std::ostream& os, const Board& board)
+std::ostream& operator<<(std::ostream& os, const Board& board) //changed x and y
 {
 	GamePiece cur;
 	int i = 0, j = 0;
@@ -225,7 +222,7 @@ std::ostream& operator<<(std::ostream& os, const Board& board)
 	{
 		for (j = 0; j < BOARD_SIZE; j++)
 		{
-			cur = *board._board[i][j];
+			cur = *board._board[j][i];
 			if (cur.getType() == '#')
 				os << "## ";
 			else

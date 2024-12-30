@@ -17,7 +17,6 @@ int pawn::checkMove(GamePiece* board[BOARD_SIZE][BOARD_SIZE], int tarX, int tarY
 	verticalStep = this->_color ? -1 : 1;
 	if (tarY != this->_posY + verticalStep)
 	{
-
 		return 6;
 	}
 	
@@ -56,6 +55,20 @@ bishop::bishop(color color, char type, int posX, int posY) : GamePiece(color, ty
 
 int bishop::checkMove(GamePiece* board[BOARD_SIZE][BOARD_SIZE], int tarX, int tarY)
 {
+	int x = 0, y = 0, i = 0;
+	if (abs(tarX - _posX) != abs(tarY - _posY))
+	{
+		return 6;
+	}
+	for (i = 1; i < abs(_posX - tarX); i++)
+	{
+		x = i * cmpnum(tarX, _posX);
+		y = i * cmpnum(tarY, _posY);
+		if (board[_posX + x][_posY + y]->getType() != '#')
+		{
+			return 6;
+		}
+	}
 	return 0;
 }
 
@@ -63,6 +76,20 @@ rook::rook(color color, char type, int posX, int posY) : GamePiece(color, type, 
 
 int rook::checkMove(GamePiece* board[BOARD_SIZE][BOARD_SIZE], int tarX, int tarY)
 {
+	int x = 0, y = 0, i = 0;
+	if (tarX != _posX && tarY != _posY)
+	{
+		return 6;
+	}
+	for (i = 1; i < (abs(tarX - _posX + tarY - _posY)); i++)
+	{
+		x = i * cmpnum(tarX, _posX);
+		y = i * cmpnum(tarY, _posY);
+		if (board[_posX + x][_posY + y]->getType() != '#')
+		{
+			return 6;
+		}
+	}
 	return 0;
 }
 
@@ -70,6 +97,32 @@ queen::queen(color color, char type, int posX, int posY) : GamePiece(color, type
 
 int queen::checkMove(GamePiece* board[BOARD_SIZE][BOARD_SIZE], int tarX, int tarY)
 {
+	int x = 0, y = 0, i = 0;
+	if (tarX != _posX && tarY != _posY && abs(tarX - _posX) != abs(tarY - _posY))
+	{
+		return 6;
+	}
+	if (abs(tarX - _posX) == abs(tarY - _posY))
+	{
+		for (i = 1; i < abs(_posX - tarX); i++)
+		{
+			x = i * cmpnum(tarX, _posX);
+			y = i * cmpnum(tarY, _posY);
+			if (board[_posX + x][_posY + y]->getType() != '#')
+			{
+				return 6;
+			}
+		}
+	}
+	for (i = 1; i < (abs(tarX - _posX + tarY - _posY)); i++)
+	{
+		x = i * cmpnum(tarX, _posX);
+		y = i * cmpnum(tarY, _posY);
+		if (board[_posX + x][_posY + y]->getType() != '#')
+		{
+			return 6;
+		}
+	}
 	return 0;
 }
 

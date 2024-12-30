@@ -1,6 +1,7 @@
 #include "pieces.h"
 #include <iostream>
 #include <array>
+#include <cmath>
 
 class Board
 {
