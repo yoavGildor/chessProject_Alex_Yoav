@@ -98,6 +98,18 @@ int rook::checkMove(GamePiece* board[BOARD_SIZE][BOARD_SIZE], int tarX, int tarY
 	{
 		return 6;
 	}
+	
+	/*if (abs(tarY - _posY) == 1)
+	{
+		if (board[_posX][tarY]->getType() != '#')
+			return 6;
+	}
+	if (abs(tarX - _posX) == 1)
+	{
+		if (board[tarX][_posY]->getType() != '#')
+			return 6;
+	}*/
+	
 	for (i = 1; i < (abs(tarX - _posX + tarY - _posY)); i++)
 	{
 		x = i * cmpnum(tarX, _posX);

@@ -12,7 +12,7 @@ GamePiece::GamePiece()
 {
 	_posX = 0;
 	_posY = 0;
-	_color = white;
+	_color = null;
 	_type = '#';
 }
 
