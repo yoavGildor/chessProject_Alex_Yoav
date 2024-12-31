@@ -18,7 +18,7 @@ GamePiece::GamePiece()
 
 int GamePiece::checkMove(GamePiece* board[BOARD_SIZE][BOARD_SIZE], int tarX, int tarY)
 {
-	return 0;
+	return 1; //if something unexpected happens the move wont play
 }
 
 int GamePiece::getColor()

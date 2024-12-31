@@ -87,11 +87,73 @@ void Board::load() //changed x and y
 
 void Board::move(int posX, int posY, int tarX, int tarY)
 {
-	GamePiece* newPiece = new GamePiece(_turn, (char)_board[posX][posY]->getType(), tarX, tarY);
-	delete _board[posX][posY];
-	delete _board[tarX][tarY];
-	_board[posX][posY] = new GamePiece();
-	_board[tarX][tarY] = newPiece;
+	char type = (char)_board[posX][posY]->getType();
+	GamePiece* newPiece;
+	pawn* newPawn;
+	knight* newKnight;
+	king* newKing;
+	queen* newQueen;
+	bishop* newBishop;
+	rook* newRook;
+	switch (type)
+	{
+	case 'R':
+		newRook = new rook(_turn, (char)_board[posX][posY]->getType(), tarX, tarY);
+		delete _board[posX][posY];
+		delete _board[tarX][tarY];
+
+		_board[posX][posY] = new GamePiece();
+		_board[tarX][tarY] = newRook;
+		break;
+	case 'B':
+		newBishop = new bishop(_turn, (char)_board[posX][posY]->getType(), tarX, tarY);
+		delete _board[posX][posY];
+		delete _board[tarX][tarY];
+
+		_board[posX][posY] = new GamePiece();
+		_board[tarX][tarY] = newBishop;
+		break;
+	case 'Q':
+		newQueen = new queen(_turn, (char)_board[posX][posY]->getType(), tarX, tarY);
+		delete _board[posX][posY];
+		delete _board[tarX][tarY];
+
+		_board[posX][posY] = new GamePiece();
+		_board[tarX][tarY] = newQueen;
+		break;
+	case 'N':
+		newKnight = new knight(_turn, (char)_board[posX][posY]->getType(), tarX, tarY);
+		delete _board[posX][posY];
+		delete _board[tarX][tarY];
+
+		_board[posX][posY] = new GamePiece();
+		_board[tarX][tarY] = newKnight;
+		break;
+	case 'K':
+		newKing = new king(_turn, (char)_board[posX][posY]->getType(), tarX, tarY);
+		delete _board[posX][posY];
+		delete _board[tarX][tarY];
+
+		_board[posX][posY] = new GamePiece();
+		_board[tarX][tarY] = newKing;
+		break;
+	case 'p':
+		newPawn = new pawn(_turn, (char)_board[posX][posY]->getType(), tarX, tarY);
+		delete _board[posX][posY];
+		delete _board[tarX][tarY];
+
+		_board[posX][posY] = new GamePiece();
+		_board[tarX][tarY] = newPawn;
+		break;
+	default:
+		newPiece = new GamePiece();
+		delete _board[posX][posY];
+		delete _board[tarX][tarY];
+
+		_board[posX][posY] = new GamePiece();
+		_board[tarX][tarY] = newPiece;
+		break;
+	}
 }
 
 int Board::isValid(int startX, int startY, int endX, int endY) //changed x and y
@@ -100,15 +162,16 @@ int Board::isValid(int startX, int startY, int endX, int endY) //changed x and y
 	{
 		return 5;
 	}
-	else if (startX == endX && startY == endY)
+	if (startX == endX && startY == endY)
 	{
 		return 7;
 	}
-	else if (_board[startX][startY]->getColor() != _turn)
+	if (_board[startX][startY]->getColor() != _turn)
 	{
 		return 2;
 	}
-	else if (_board[endX][endY]->getColor() == _turn)
+	int turn = _board[endX][endY]->getColor();
+	if (_board[endX][endY]->getColor() == (int)_turn)
 	{
 		return 3;
 	}
@@ -216,9 +279,9 @@ int* Board::convert(std::string infoStr)
 {
 	int* infoArr = new int[4] //next 4 lines are initialization
 	{infoStr[0] - 'a',
-	infoStr[1] - '0',
+	infoStr[1] - '1',
 	infoStr[2] - 'a',
-	infoStr[3] - '0'};
+	infoStr[3] - '1'};
 
 	return infoArr;
 }
@@ -230,7 +293,7 @@ std::ostream& operator<<(std::ostream& os, const Board& board) //changed x and y
 	int i = 0, j = 0;
 	for (i = BOARD_SIZE-1; i > -1; i--)
 	{
-		for (j = BOARD_SIZE-1; j > -1; j--)
+		for (j = 0; j < BOARD_SIZE; j++)
 		{
 			cur = *board._board[j][i];
 			if (cur.getType() == '#')
@@ -244,17 +307,16 @@ std::ostream& operator<<(std::ostream& os, const Board& board) //changed x and y
 }
 void Board::playMove(std::string moveStr)
 {
-	int* arr = this->convert(moveStr);
-	//arr contains the posx, posy, tarx, tary;
-	if (isValid(arr[0], arr[1], arr[2], arr[3]) == 0)
+
+	int* arr = convert(moveStr); //arr contains the posx, posy, tarx, tary;
+	int res = isValid(arr[0], arr[1], arr[2], arr[3]);
+	if (res == 0)
 	{
-		int check = this->checkPieceMove(arr[0], arr[1], arr[2], arr[3]);
-		if (this->checkPieceMove(arr[0], arr[1], arr[2], arr[3]) == 0)
+		int ans = this->checkPieceMove(arr[0], arr[1], arr[2], arr[3]);
+		if (ans == 0)
 		{
-			this->move(arr[0], arr[1], arr[2], arr[3]);
-			std::cout << "i work here brah";
+			move(arr[0], arr[1], arr[2], arr[3]);
 		}
-		std::cout << "i work here too brah";
 	}
 	delete arr;
 }

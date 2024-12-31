@@ -11,8 +11,8 @@ int main()
 	//std::cout << board.checkPieceMove(0, 1, 0, 4); //pawn move 3
 	//std::cout << board.checkPieceMove(1, 0, 2, 2); //valid knight move
 	//std::cout << board.checkPieceMove(1, 0, 2, 3) << std::endl; //invalid knight move
-	cout << board << endl;
-	board.playMove("a1a2");
-	cout << board << endl;
+	board.playMove("e2e4");
+	board.playMove("e4e5");
+	cout << board;
 	return 0;
 }
