@@ -14,7 +14,14 @@ Board::Board()
 
 Board::~Board()
 {
-
+	int i = 0, j = 0;
+	for (i = 0; i < BOARD_SIZE; i++)
+	{
+		for (j = 0; j < BOARD_SIZE; j++)
+		{
+			delete _board[j][i];
+		}
+	}
 }
 
 int Board::checkPieceMove(int posX, int posY, int tarX, int tarY) //changed x and y
