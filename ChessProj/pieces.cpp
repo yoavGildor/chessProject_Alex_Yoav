@@ -7,19 +7,23 @@ pawn::pawn(color color, char type, int posX, int posY) : GamePiece(color, type, 
 
 int pawn::checkMove(GamePiece* board[BOARD_SIZE][BOARD_SIZE], int tarX, int tarY)
 {
-	int verticalStep = this->_color ? -1 : 1; //one step up or down depending on color
-	verticalStep *= this->_hasMoved ? 1 : 2; //allow double step on first move of pawn
-	if (!this->_hasMoved && tarY == this->_posY + verticalStep && tarX == this->_posX && board[tarY][tarX]->getType() == '#') //special case
+	int vertStep = 1;
+	if (this->_color == black) //one step up or down depending on color
+		vertStep *= -1;
+	if (!this->_hasMoved) //allow double step on first move of pawn
+		vertStep *= 2;
+	if (!_hasMoved && ) 
 	{
-		if(board[tarY - 1][tarX]->getType() == '#')
+		_hasMoved = true;
 		return 0;
 	}
-	verticalStep = this->_color ? -1 : 1;
-	if (tarY != this->_posY + verticalStep)
-	{
-		return 6;
-	}
-	
+	else if(_posY + vertStep == tarY && board[tarX][tarY]->getType() == '#')
+	//verticalStep = this->_color ? -1 : 1;
+	//if (tarY != this->_posY + verticalStep)
+	//{
+	//	return 6;
+	//}
+
 	if (tarX == this->_posX) //only walk forward when space in empty
 	{
 		if (board[tarY][tarX]->getType() != '#')

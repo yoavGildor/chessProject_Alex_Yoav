@@ -16,7 +16,8 @@ public:
 	int getTurn();
 	void switchTurn();
 	void load();
-	void move();
+	void playMove(std::string);
+	void move(int posX, int posY, int tarX, int tarY);
 	int isValid(int startX, int startY, int endX, int endY);
 	bool checkMate(color colorOfKing);
 	int* convert(std::string);

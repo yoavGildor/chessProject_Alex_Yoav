@@ -5,7 +5,7 @@ Board::Board()
 	_turn = white;
 	for (int i = 0; i < BOARD_SIZE; i++) //changed x and y
 	{
-		for (int j = 0; j < BOARD_SIZE; j++)
+		for (int j = BOARD_SIZE-1; j > -1; j--)
 		{
 			_board[j][i] = new GamePiece(null, '#', i, j);
 		}
@@ -52,42 +52,46 @@ void Board::load() //changed x and y
 	for (i = 0; i < BOARD_SIZE; i++)
 	{
 		if (i == 0 || i == 7)
-			_board[i][0] = new rook(black, 'R', i, 0);
+			_board[i][0] = new rook(white, 'R', i, 0);
 		if (i == 1 || i == 6)
-			_board[i][0] = new knight(black, 'N', i, 0);
+			_board[i][0] = new knight(white, 'N', i, 0);
 		if (i == 2 || i == 5)
-			_board[i][0] = new bishop(black, 'B', i, 0);
+			_board[i][0] = new bishop(white, 'B', i, 0);
 		if (i == 3)
-			_board[i][0] = new king(black, 'K', i, 0);
+			_board[i][0] = new king(white, 'K', i, 0);
 		if (i == 4)
-			_board[i][0] = new queen(black, 'Q', i, 0);
+			_board[i][0] = new queen(white, 'Q', i, 0);
 	}
 	for (i = 0; i < BOARD_SIZE; i++)
 	{
-		_board[i][1] = new pawn(black, 'p', i, 1);
+		_board[i][1] = new pawn(white, 'p', i, 1);
 	}
 	for (i = 0; i < BOARD_SIZE; i++)
 	{
-		_board[i][6] = new pawn(white, 'p', i, 6);
+		_board[i][6] = new pawn(black, 'p', i, 6);
 	}
 	for (i = 0; i < BOARD_SIZE; i++)
 	{
 		if (i == 0 || i == 7)
-			_board[i][7] = new rook(white, 'R', i, 7);
+			_board[i][7] = new rook(black, 'R', i, 7);
 		if (i == 1 || i == 6)
-			_board[i][7] = new knight(white, 'N', i, 7);
+			_board[i][7] = new knight(black, 'N', i, 7);
 		if (i == 2 || i == 5)
-			_board[i][7] = new bishop(white, 'B', i, 7);
+			_board[i][7] = new bishop(black, 'B', i, 7);
 		if (i == 3)
-			_board[i][7] = new king(white, 'K', i, 7);
+			_board[i][7] = new king(black, 'K', i, 7);
 		if (i == 4)
-			_board[i][7] = new queen(white, 'Q', i, 7);
+			_board[i][7] = new queen(black, 'Q', i, 7);
 	}
 }
 
-void Board::move()
+void Board::move(int posX, int posY, int tarX, int tarY)
 {
-	//INCOMPLETE
+	GamePiece* newPiece = new GamePiece(_turn, (char)_board[posX][posY]->getType(), tarX, tarY);
+	delete _board[posX][posY];
+	delete _board[tarX][tarY];
+	_board[posX][posY] = new GamePiece();
+	_board[tarX][tarY] = newPiece;
 }
 
 int Board::isValid(int startX, int startY, int endX, int endY) //changed x and y
@@ -96,15 +100,15 @@ int Board::isValid(int startX, int startY, int endX, int endY) //changed x and y
 	{
 		return 5;
 	}
-	if (startX == endX && startY == endY)
+	else if (startX == endX && startY == endY)
 	{
 		return 7;
 	}
-	if (_board[startX][startY]->getColor() != _turn)
+	else if (_board[startX][startY]->getColor() != _turn)
 	{
 		return 2;
 	}
-	if (_board[startX][startY]->getColor() == _turn)
+	else if (_board[endX][endY]->getColor() == _turn)
 	{
 		return 3;
 	}
@@ -210,12 +214,11 @@ bool Board::checkMate(color colorOfKing) //need to change x and y!!!!!!!
 
 int* Board::convert(std::string infoStr)
 {
-	int infoArr[4];
-
-	infoArr[0] = infoStr[0] - 'a';
-	infoArr[1] = infoStr[1] - '0';
-	infoArr[2] = infoStr[2] - 'a';
-	infoArr[3] = infoStr[3] - '0';
+	int* infoArr = new int[4] //next 4 lines are initialization
+	{infoStr[0] - 'a',
+	infoStr[1] - '0',
+	infoStr[2] - 'a',
+	infoStr[3] - '0'};
 
 	return infoArr;
 }
@@ -225,9 +228,9 @@ std::ostream& operator<<(std::ostream& os, const Board& board) //changed x and y
 {
 	GamePiece cur;
 	int i = 0, j = 0;
-	for (i = 0; i < BOARD_SIZE; i++)
+	for (i = BOARD_SIZE-1; i > -1; i--)
 	{
-		for (j = 0; j < BOARD_SIZE; j++)
+		for (j = BOARD_SIZE-1; j > -1; j--)
 		{
 			cur = *board._board[j][i];
 			if (cur.getType() == '#')
@@ -238,4 +241,20 @@ std::ostream& operator<<(std::ostream& os, const Board& board) //changed x and y
 		os << '\n';
 	}
 	return os;
+}
+void Board::playMove(std::string moveStr)
+{
+	int* arr = this->convert(moveStr);
+	//arr contains the posx, posy, tarx, tary;
+	if (isValid(arr[0], arr[1], arr[2], arr[3]) == 0)
+	{
+		int check = this->checkPieceMove(arr[0], arr[1], arr[2], arr[3]);
+		if (this->checkPieceMove(arr[0], arr[1], arr[2], arr[3]) == 0)
+		{
+			this->move(arr[0], arr[1], arr[2], arr[3]);
+			std::cout << "i work here brah";
+		}
+		std::cout << "i work here too brah";
+	}
+	delete arr;
 }
