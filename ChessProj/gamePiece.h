@@ -19,4 +19,5 @@ public:
 	int getType();
 	virtual int checkMove(GamePiece* board[BOARD_SIZE][BOARD_SIZE], int tarX, int tarY);
 	friend std::ostream& operator<<(std::ostream& os, const GamePiece& piece);
+	void setPosition(int, int);
 };

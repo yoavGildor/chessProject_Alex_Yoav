@@ -35,3 +35,9 @@ std::ostream& operator<<(std::ostream& os, const GamePiece& piece)
 	os << piece._color << piece._type << " ";
 	return os;
 }
+
+void GamePiece::setPosition(int x, int y)
+{
+	_posX = x;
+	_posY = y;
+}

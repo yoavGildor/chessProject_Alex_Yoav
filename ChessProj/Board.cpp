@@ -87,21 +87,18 @@ void Board::load() //changed x and y
 
 void Board::move(int posX, int posY, int tarX, int tarY)
 {
-	char type = (char)_board[posX][posY]->getType();
+	/*char type = (char)_board[posX][posY]->getType();
 	GamePiece* newPiece;
 	pawn* newPawn;
 	knight* newKnight;
 	king* newKing;
 	queen* newQueen;
 	bishop* newBishop;
-	rook* newRook;
 	switch (type)
 	{
 	case 'R':
-		newRook = new rook(_turn, type, tarX, tarY);
-		delete _board[posX][posY];
 		delete _board[tarX][tarY];
-		_board[tarX][tarY] = newRook;
+		_board[tarX][tarY] = _board[posX][posY];
 		break;
 	case 'B':
 		newBishop = new bishop(_turn, type, tarX, tarY);
@@ -139,7 +136,10 @@ void Board::move(int posX, int posY, int tarX, int tarY)
 		delete _board[tarX][tarY];
 		_board[tarX][tarY] = newPiece;
 		break;
-	}
+	}*/
+	delete _board[tarX][tarY];
+	_board[tarX][tarY] = _board[posX][posY];
+	_board[tarX][tarY]->setPosition(tarX, tarY);
 	_board[posX][posY] = new GamePiece();
 }
 
