@@ -98,18 +98,6 @@ int rook::checkMove(GamePiece* board[BOARD_SIZE][BOARD_SIZE], int tarX, int tarY
 	{
 		return 6;
 	}
-	
-	/*if (abs(tarY - _posY) == 1)
-	{
-		if (board[_posX][tarY]->getType() != '#')
-			return 6;
-	}
-	if (abs(tarX - _posX) == 1)
-	{
-		if (board[tarX][_posY]->getType() != '#')
-			return 6;
-	}*/
-	
 	for (i = 1; i < (abs(tarX - _posX + tarY - _posY)); i++)
 	{
 		x = i * cmpnum(tarX, _posX);
@@ -142,17 +130,22 @@ int queen::checkMove(GamePiece* board[BOARD_SIZE][BOARD_SIZE], int tarX, int tar
 				return 6;
 			}
 		}
+		return 0;
 	}
-	for (i = 1; i < (abs(tarX - _posX + tarY - _posY)); i++)
+	else if (tarX == _posX || tarY == _posY)
 	{
-		x = i * cmpnum(tarX, _posX);
-		y = i * cmpnum(tarY, _posY);
-		if (board[_posX + x][_posY + y]->getType() != '#')
+		for (i = 1; i < (abs(tarX - _posX + tarY - _posY)); i++)
 		{
-			return 6;
+			x = i * cmpnum(tarX, _posX);
+			y = i * cmpnum(tarY, _posY);
+			if (board[_posX + x][_posY + y]->getType() != '#')
+			{
+				return 6;
+			}
 		}
+		return 0;
 	}
-	return 0;
+	return 6;
 }
 
 king::king(color color, char type, int posX, int posY) : GamePiece(color, type, posX, posY) {}
