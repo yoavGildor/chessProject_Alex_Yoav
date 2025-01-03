@@ -120,5 +120,14 @@ king::king(color color, char type, int posX, int posY) : GamePiece(color, type, 
 
 int king::checkMove(GamePiece* board[BOARD_SIZE][BOARD_SIZE], int tarX, int tarY)
 {
+	int distanceX = 0, distanceY = 0, totalDistance = 0;
+	distanceX = tarX - this->_posX;
+	distanceY = tarY - this->_posY;
+	totalDistance = sqrt(pow(distanceX, 2) + pow(distanceY, 2));
+	if (totalDistance >- 2)
+	{
+		return 6;
+	}
+	
 	return 0;
 }

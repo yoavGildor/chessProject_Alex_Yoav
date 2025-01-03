@@ -178,8 +178,8 @@ bool Board::checkMate(color colorOfKing) //need to change x and y!!!!!!!
 		{
 			if (_board[i][j]->getType() == 'K' && _board[i][j]->getColor() == colorOfKing)
 			{
-				posX = j;
-				posY = i;
+				posX = i;
+				posY = j;
 				flag = false;
 			}
 		}
